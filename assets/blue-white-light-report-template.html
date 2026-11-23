@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+  浅蓝白报告模板 v3.2 · 单文件、无外部依赖，独立于深蓝白模板使用，不混搭。
+  使用：保留 data-blue-white-style="light"；按 data-slot="{{槽位名}}" 替换对应节点文本，
+  完成后可移除 data-slot 属性。当前完整内容均为虚构设计示例，不是真实业务报告。
+  按需保留导读、details、table、flow、ticket 与来源口径；不强制统计或人员结构。
+  v3.1 保留跨首屏交界的浮动玻璃导航条一处；结论、正文、表格、票据与按钮保持不透明。
+  原生 details、章节锚点与返回顶部可用；按钮六态仅作组件展示，不提供后端功能。
+-->
+<html lang="zh-CN" data-blue-white-style="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title data-slot="{{报告标题}}">服务体验观察 · 阅读与行动指南</title>
+<style>
+:root{
+  --ink:#0f2a52;--muted:#3b5b8f;--primary:#1d6ef5;--link:#1554b0;
+  --line:#dbe7f7;--surface:#ffffff;--tint:#e8f1ff;--tint-pressed:#c6dcfa;
+  --success:#146a45;--success-bg:#e6f7ee;--warning:#895b11;--warning-bg:#fff3e0;--danger:#b42335;--danger-bg:#ffecec;
+  --finance-red:#e64545;--finance-green:#1fa663;
+  --page:linear-gradient(180deg,#eef4fd,#f7fafd 40%,#eef4fd);
+  --hero:linear-gradient(120deg,#deedff,#f0f7ff 65%,#fff);--hero-line:#c6dcfa;
+  --halo:radial-gradient(circle,#abcfff66,transparent 70%);
+  --card:linear-gradient(160deg,#fff,#f3f8ff);--bottom:linear-gradient(135deg,#e1eeff,#fff);--bottom-line:#bbd6fb;
+  --table-head:linear-gradient(135deg,#eaf2ff,#f5f9ff);
+  --glass-fill:rgb(255 255 255 / .55);--glass-blur:16px;--glass-stroke-soft:rgba(15,42,82,.12);
+  --glass-fallback:rgb(255 255 255 / .88);--glass-print:#ffffff;
+  --shadow-s:0 10px 30px rgba(29,110,245,.07);--shadow-m:0 12px 34px rgba(29,110,245,.09);--shadow-l:0 20px 50px rgba(29,110,245,.086);
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-10:40px;--space-16:64px;
+  --radius-s:12px;--radius-m:24px;--radius-l:32px;--pill:999px;
+  --font:system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --type-hero:800 clamp(26px,3.15vw,34px)/1.29 var(--font);
+  --type-h2:800 24px/36px var(--font);--type-h3:700 18px/28px var(--font);--type-lead:700 20px/32px var(--font);
+  --type-body:400 15px/28px var(--font);--type-table:400 14px/24px var(--font);--type-button:600 14px/24px var(--font);
+  --type-section-no:700 14px/36px var(--font);--type-caption:400 13px/24px var(--font);--type-tag:600 12px/20px var(--font);
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:var(--space-6)}
+.glass{position:relative;background:var(--glass-fill);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border:1px solid var(--glass-stroke-soft);border-radius:var(--radius-m);color:var(--ink);box-shadow:var(--shadow-s)}
+.glass p,.glass h3,.glass .kicker,.glass .caption,.glass strong{color:var(--ink)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass-fallback)}}
+body{margin:0;background:var(--page);color:var(--ink);font:var(--type-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,ul,ol{margin:0}h1{font:var(--type-hero);letter-spacing:1px}h2{font:var(--type-h2)}h3{font:var(--type-h3)}strong{font-weight:700}
+a{color:var(--link);text-underline-offset:var(--space-1)}button{font:inherit}:focus-visible{outline:3px solid var(--link);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.container{max-width:1080px;margin:auto;padding:var(--space-8) var(--space-6) var(--space-16)}
+.skip-link{position:absolute;inset-inline-start:var(--space-4);top:var(--space-4);z-index:3;transform:translateY(-200%);padding:var(--space-3) var(--space-4);background:var(--surface);border-radius:var(--radius-s)}.skip-link:focus{transform:none}
+.hero{position:relative;isolation:isolate;overflow:hidden;padding:var(--space-10);border:1px solid var(--hero-line);border-radius:var(--radius-l);background:var(--hero);box-shadow:var(--shadow-l)}
+.hero::before{content:"";position:absolute;z-index:-1;inset-inline-end:0;top:0;width:320px;height:320px;background:var(--halo);pointer-events:none}
+.hero h1{margin-top:var(--space-4);max-width:800px}.hero .sub{margin-top:var(--space-3);color:var(--muted)}
+.kicker{font:var(--type-tag);color:var(--muted)}.lead{font:var(--type-lead);color:var(--ink)}
+.conclusion{margin-top:var(--space-6)}.conclusion .lead{margin-top:var(--space-2)}.conclusion .caption{margin-top:var(--space-2)}
+.caption,.sec-desc{font:var(--type-caption);color:var(--muted)}
+.nav{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.nav.glass{z-index:2;margin:-24px var(--space-4) 0;padding:var(--space-3)}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:var(--space-2) var(--space-4);border:1px solid var(--hero-line);border-radius:var(--pill);background:var(--surface);color:var(--link);font:var(--type-button);text-decoration:none;box-shadow:var(--shadow-s)}.nav a:hover{background:var(--tint)}.nav a:active{background:var(--tint-pressed);border-color:var(--ink);color:var(--ink);box-shadow:none}
+.section{margin-top:var(--space-10);scroll-margin-top:var(--space-6)}.sec-head{display:flex;align-items:center;gap:var(--space-3)}.sec-no{display:inline-flex;align-items:center;gap:var(--space-2);flex-shrink:0;color:var(--link);font:var(--type-section-no)}.sec-no::after{content:"/"}.sec-desc{margin-top:var(--space-2)}
+.grid{display:grid;gap:var(--space-4);margin-top:var(--space-4)}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid>*{min-width:0}
+.card{padding:var(--space-6);border:1px solid var(--line);border-radius:var(--radius-m);background:var(--card);box-shadow:var(--shadow-s)}.card h3{margin-top:var(--space-2)}.card h3+.caption{margin-top:var(--space-2)}
+.tag{display:inline-flex;align-items:center;gap:var(--space-1);max-width:100%;padding:var(--space-1) var(--space-3);border:1px solid var(--line);border-radius:var(--pill);background:var(--tint);color:var(--link);font:var(--type-tag)}
+.tag.success{background:var(--success-bg);color:var(--success);border-color:var(--success-bg)}.tag.warning{background:var(--warning-bg);color:var(--warning);border-color:var(--warning-bg)}.tag.danger{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-bg)}
+.callout{margin-top:var(--space-4);padding:var(--space-4);border-inline-start:4px solid var(--primary);border-radius:var(--radius-s);background:var(--tint)}.callout p{margin-top:var(--space-2)}.list{padding-inline-start:var(--space-6);margin-top:var(--space-4)}.list li+li{margin-top:var(--space-2)}.list li::marker{color:var(--primary)}
+.finance{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);margin-top:var(--space-4);font-variant-numeric:tabular-nums}.finance .up{color:var(--finance-red);font-weight:700}.finance .down{color:var(--finance-green);font-weight:700}.finance .caption{flex-basis:100%}
+.empty{margin-top:var(--space-4);padding:var(--space-6);border:1px dashed var(--line);border-radius:var(--radius-m);background:var(--surface);text-align:start}.empty h3{font:var(--type-h3)}.empty p{margin-top:var(--space-2);color:var(--muted)}.empty .button{margin-top:var(--space-4)}
+details{margin-top:var(--space-4);border:1px solid var(--line);border-radius:var(--radius-s);background:var(--surface);overflow:hidden}summary{padding:var(--space-3) var(--space-4);min-height:44px;color:var(--link);font-weight:700;cursor:pointer}summary:hover{background:var(--tint)}summary:active{background:var(--tint-pressed)}summary:focus-visible{outline-offset:-3px}details[open] summary{border-bottom:1px solid var(--line)}.details-body{padding:var(--space-4)}.details-body p+p{margin-top:var(--space-2)}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-m);margin-top:var(--space-4);background:var(--surface);box-shadow:var(--shadow-s)}
+table{border-collapse:collapse;width:100%;min-width:680px;text-align:start;font:var(--type-table)}caption{text-align:start;padding:var(--space-4);font:var(--type-caption);color:var(--muted)}th,td{padding:var(--space-4);border-bottom:1px solid var(--line);vertical-align:top}thead{background:var(--table-head)}th{font-weight:700}tbody tr:last-child td{border-bottom:0}
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4);list-style:none;padding:0;margin-top:var(--space-4)}.flow li{min-width:0;padding:var(--space-6);border:1px solid var(--line);border-radius:var(--radius-m);background:var(--card);box-shadow:var(--shadow-s)}.flow .step{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--tint);color:var(--link);font:var(--type-tag)}.flow h3{margin-top:var(--space-3)}.flow .caption{margin-top:var(--space-2)}
+.ticket{display:flex;flex-direction:column;border:1px solid var(--hero-line);border-radius:var(--radius-m);overflow:hidden;background:var(--card);box-shadow:var(--shadow-m)}.ticket-head{padding:var(--space-6);border-bottom:1px dashed var(--hero-line)}.ticket-head h3{margin-top:var(--space-2)}.ticket-body{padding:var(--space-6);flex:1}.ticket-body p+p{margin-top:var(--space-2)}.ticket-footer{padding:var(--space-4) var(--space-6);border-top:1px solid var(--line);background:var(--surface);font:var(--type-caption);color:var(--muted)}
+.bottom{margin-top:var(--space-4);padding:var(--space-10);border:1px solid var(--bottom-line);border-radius:var(--radius-m);background:var(--bottom);box-shadow:var(--shadow-m)}.bottom .lead{margin-top:var(--space-2)}.bottom .caption{margin-top:var(--space-3)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin-top:var(--space-4)}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:44px;padding:var(--space-2) var(--space-4);border:1px solid var(--link);border-radius:var(--radius-s);background:var(--surface);color:var(--link);font:var(--type-button);text-decoration:none;cursor:pointer;transition:background .15s,box-shadow .15s}
+.button:hover,.button.is-hover{background:var(--tint);border-color:var(--link);box-shadow:var(--shadow-s)}
+.button:active,.button.is-active{background:var(--tint-pressed);border-color:var(--ink);color:var(--ink);box-shadow:none}
+.button:disabled,.button[aria-disabled="true"]{background:var(--tint);border-color:var(--line);color:var(--muted);cursor:not-allowed;box-shadow:none}
+.button[aria-busy="true"]{background:var(--tint);border-color:var(--link);color:var(--link);cursor:progress}.button[aria-busy="true"]::before{content:"";width:16px;height:16px;border:1px solid var(--link);border-right-color:var(--tint);border-radius:50%;animation:spin 1s linear infinite}
+.button.is-error{background:var(--danger-bg);border-color:var(--danger);color:var(--danger);box-shadow:none}.button.is-error:hover{background:var(--danger-bg);border-color:var(--danger);color:var(--danger)}.error-note{margin-top:var(--space-3);color:var(--danger);font:var(--type-caption)}
+.foot{margin-top:var(--space-10);padding:var(--space-6);border:1px solid var(--line);border-radius:var(--radius-m);background:var(--surface);font:var(--type-caption);color:var(--muted)}.foot p+p{margin-top:var(--space-2)}.foot strong{color:var(--ink)}.foot a{display:inline-flex;align-items:center;min-height:44px;margin-top:var(--space-2)}
+h1,h2,h3,p,a,li,td,th{overflow-wrap:anywhere}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(min-width:761px) and (max-width:1024px){.container{padding:var(--space-6) var(--space-4) var(--space-10)}.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.container{padding:var(--space-4) var(--space-4) var(--space-10)}.hero,.bottom{padding:var(--space-6)}.grid-2,.grid-3{grid-template-columns:minmax(0,1fr)}.card,.ticket-head,.ticket-body,.ticket-footer,.flow li{padding:var(--space-4)}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.sec-head{align-items:flex-start}.hero::before{max-width:100%}.nav.glass{margin:-16px 0 0;padding:var(--space-2)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.button[aria-busy="true"]::before{display:none}}
+@media(forced-colors:active){.glass{backdrop-filter:none;-webkit-backdrop-filter:none;border-color:CanvasText;box-shadow:none}}
+@media print{body{background:var(--surface)}.container{max-width:none;padding:0}.hero,.card,.ticket,.bottom,.table-wrap,.flow li,.button,.nav a{box-shadow:none!important}.hero::before{display:none}.nav,.skip-link,.state-demo,.foot a{display:none}.section,.foot{margin-top:var(--space-6)}.card,.ticket,.flow li{break-inside:avoid}.table-wrap{overflow:visible}table{min-width:0}.hero,.bottom{padding:var(--space-6)}.glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--glass-print)!important;border-color:var(--line)!important;box-shadow:none!important;color:var(--ink)!important}.glass p,.glass h3,.glass .kicker,.glass .caption{color:var(--ink)!important}}
+</style>
+</head>
+<body id="top">
+<a class="skip-link" href="#reading">跳到报告正文</a>
+<main class="container">
+  <header class="hero" aria-labelledby="report-title">
+    <span class="tag" data-slot="{{组织/栏目标签}}">体验研究室 · 轻量报告 / LIGHT 03</span>
+    <h1 id="report-title" data-slot="{{报告标题}}">服务体验观察<br>让信息易读，让行动更轻</h1>
+    <p class="sub" data-slot="{{报告副标题}}">示例周期：10.01—10.21 · 一份面向阅读与协作的观察手册</p>
+    <div class="conclusion"><p class="kicker">本期判断 / KEY INSIGHT</p><p class="lead" data-slot="{{核心结论}}">把复杂问题拆成清晰路径，比增加更多说明更有效。</p><p class="caption" data-slot="{{结论补充}}">本页为虚构设计示例。用导读、可展开说明、对照表与行动票据，串起从理解到执行的完整过程。</p></div>
+  </header>
+  <!-- v3.1 保留：light 唯一玻璃层，跨首屏与页面底交界的浮动导航条。 -->
+  <nav class="nav glass" aria-label="报告章节导航"><a href="#reading">01 快速导读</a><a href="#comparison">02 问题对照</a><a href="#flow">03 协作路径</a><a href="#tickets">04 行动票据</a><a href="#next">05 下一步</a></nav>
+
+  <section class="section" id="reading" aria-labelledby="reading-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">01</span><h2 id="reading-title" data-slot="{{导读标题}}">先读结论，再按需要深入</h2></div><p class="sec-desc">浅蓝底、墨蓝字，优先保证长文阅读的稳定感。</p>
+    <div class="grid grid-2">
+      <article class="card"><span class="tag">阅读线索 A</span><h3 data-slot="{{导读一标题}}">信息有层次，判断有依据</h3><p class="caption">让读者知道哪些是事实，哪些是下一步建议。</p><div class="callout"><strong>先交代适用范围</strong><p data-slot="{{导读一结论}}">本期只观察关键任务路径，不将局部反馈外推为全部用户的共同结论。</p></div><ul class="list"><li>每个结论都对应一项具体观察。</li><li>来源、时间与样本边界保持可见。</li><li>需要补证的内容明确标为待确认。</li></ul></article>
+      <article class="card"><span class="tag">阅读线索 B</span><h3 data-slot="{{导读二标题}}">默认保持轻量，细节随时可查</h3><p class="caption">用原生折叠区域容纳口径与补充解释。</p><details open><summary>展开说明 · 什么是关键任务路径？</summary><div class="details-body"><p data-slot="{{展开说明一}}">从用户发现入口，到理解信息，再到完成目标的一组连续步骤。</p><p class="caption">示例只说明写法，不构成实际研究结论。</p></div></details><details><summary>查看边界 · 哪些内容尚未覆盖？</summary><div class="details-body"><p data-slot="{{展开说明二}}">暂未覆盖跨设备连续使用、全部异常场景与长期留存影响。</p></div></details></article>
+    </div>
+  </section>
+
+  <section class="section" id="comparison" aria-labelledby="comparison-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">02</span><h2 id="comparison-title" data-slot="{{对照标题}}">把观察，转成可以讨论的议题</h2></div><p class="sec-desc">每行只讨论一个问题；状态标签同时使用文字，不仅依赖颜色。</p>
+    <div class="table-wrap" role="region" aria-label="观察与建议对照表，可使用方向键横向滚动" tabindex="0"><table><caption data-slot="{{表格口径}}">虚构样例 · 小屏表格局部滚动，不挤压页面宽度</caption><thead><tr><th scope="col">观察议题</th><th scope="col">可能影响</th><th scope="col">建议动作</th><th scope="col">当前状态</th></tr></thead><tbody>
+      <tr><td data-slot="{{议题一}}"><strong>入口命名不一致</strong><br>同一任务出现两种称谓</td><td>增加识别与确认成本</td><td>统一术语与导航文案</td><td><span class="tag success">已确认</span></td></tr>
+      <tr><td><strong>异常状态缺少解释</strong><br>只有状态，没有恢复指引</td><td>不清楚下一步可以做什么</td><td>补充原因、边界与可用动作</td><td><span class="tag warning">待补证</span></td></tr>
+      <tr><td><strong>关键反馈缺失</strong><br>操作后无法确认结果</td><td>可能引发重复尝试</td><td>明确完成与失败反馈</td><td><span class="tag danger">需跟进</span></td></tr>
+    </tbody></table></div>
+    <div class="callout"><strong>讨论规则</strong><p data-slot="{{对照补充}}">“可能影响”是待验证假设，不应直接写成确定事实；正式报告须补充研究证据与验证方式。</p></div>
+    <div class="finance" aria-label="金融数值组件示意"><span class="tag">金融数值组件 · 虚构</span><span class="up">▲ +1.26% 涨</span><span class="down">▼ −0.74% 跌</span><p class="caption">红涨绿跌只用于金融数值，并带正负号或箭头；不用于表达任务完成与否。</p></div>
+  </section>
+
+  <section class="section" id="flow" aria-labelledby="flow-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">03</span><h2 id="flow-title" data-slot="{{流程标题}}">一条轻量、可复核的协作路径</h2></div><p class="sec-desc">每个阶段都留下最小必要产物，避免只有过程、没有结果。</p>
+    <ol class="flow"><li><span class="step" aria-hidden="true">01</span><h3>明确问题</h3><p class="caption" data-slot="{{流程一}}">描述观察对象、场景与边界。</p></li><li><span class="step" aria-hidden="true">02</span><h3>补齐证据</h3><p class="caption" data-slot="{{流程二}}">关联样本、记录与待验证假设。</p></li><li><span class="step" aria-hidden="true">03</span><h3>形成动作</h3><p class="caption" data-slot="{{流程三}}">明确下一动作、责任方向与节点。</p></li><li><span class="step" aria-hidden="true">04</span><h3>复核结果</h3><p class="caption" data-slot="{{流程四}}">记录结果与未覆盖范围，更新判断。</p></li></ol>
+  </section>
+
+  <section class="section" id="tickets" aria-labelledby="tickets-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">04</span><h2 id="tickets-title" data-slot="{{票据标题}}">把下一动作，写成一张可交接票据</h2></div><p class="sec-desc">事项优先于人员；只有明确需要时才添加协作角色或人员维度。</p>
+    <div class="grid grid-2">
+      <article class="ticket"><header class="ticket-head"><span class="tag">ACTION / 01</span><h3 data-slot="{{票据一标题}}">统一关键入口的命名</h3></header><div class="ticket-body"><p data-slot="{{票据一动作}}"><strong>下一动作</strong> 对照术语表，梳理页面内的同义名称。</p><p><strong>验收方式</strong> 同一任务仅保留一种主称谓，例外情况有解释。</p><p><span class="tag success">目标清晰</span></p></div><footer class="ticket-footer" data-slot="{{票据一责任与节点}}">协作方向：内容与体验 · 示例检查点：10.24</footer></article>
+      <article class="ticket"><header class="ticket-head"><span class="tag">ACTION / 02</span><h3 data-slot="{{票据二标题}}">补齐异常与恢复说明</h3></header><div class="ticket-body"><p data-slot="{{票据二动作}}"><strong>下一动作</strong> 汇总加载、无数据与失败场景的真实边界。</p><p><strong>验收方式</strong> 每个异常都说明原因、可用动作与预期结果。</p><p><span class="tag warning">待确认依赖</span></p></div><footer class="ticket-footer" data-slot="{{票据二责任与节点}}">协作方向：产品与研发 · 示例检查点：10.26</footer></article>
+    </div>
+  </section>
+
+  <section class="section" id="next" aria-labelledby="next-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">05</span><h2 id="next-title" data-slot="{{收尾标题}}">先完成一小步，再形成下一轮判断</h2></div>
+    <div class="bottom"><p class="kicker">NEXT / 保持节奏，持续复核</p><p class="lead" data-slot="{{下一步结论}}">用一次明确的验收，代替一份不断增长的待办。</p><p class="caption" data-slot="{{下一步说明}}">本期优先完成命名一致性检查；待异常边界确认后，再推进状态说明。所有安排均为设计示例。</p><div class="actions"><a class="button" href="#tickets">回看行动票据</a><a class="button" href="#sources">查看来源口径</a></div></div>
+  </section>
+
+  <section class="section state-demo" aria-labelledby="states-title"><div class="sec-head"><span class="sec-no" aria-hidden="true">UI</span><h2 id="states-title">交互状态参考</h2></div><p class="sec-desc">独立组件展示。默认按钮为真实页内导航，其余按钮无业务动作或后端连接。</p><div class="card grid"><div class="actions"><a class="button" href="#reading">默认 · 回看导读</a><button class="button is-hover" type="button">悬停态样例</button><button class="button is-active" type="button">按下态样例</button><button class="button" type="button" disabled>禁用态 · 暂不可用</button><button class="button" type="button" aria-disabled="true" aria-busy="true">处理中…</button><button class="button is-error" type="button" aria-describedby="error-note">错误态样例</button></div><p class="sr-only" role="status" aria-live="polite">示例页面无后台请求；加载状态仅作展示，减少动效时保留“处理中…”文字。</p><p class="error-note" id="error-note">错误态展示：没有提交请求，也没有真实失败记录；正式使用时应替换为可理解的错误原因。</p>
+    <div class="empty"><h3>暂无记录</h3><p>本周期尚未登记事项；无登记不等于无产出。未知与 0 分开表达。</p><a class="button" href="#sources">查看口径说明</a></div>
+  </div></section>
+
+  <footer class="foot" id="sources" aria-label="来源与口径"><p><strong>统计口径</strong> <span data-slot="{{口径定义}}">本页为虚构服务体验报告，不包含真实业务统计或研究样本。</span></p><p><strong>口径边界</strong> <span data-slot="{{口径边界}}">不代表任何个人或团队表现，也不支持将局部观察外推至全部使用场景。</span></p><p><strong>数据来源</strong> <span data-slot="{{数据来源}}">无外部来源。正式使用前请补充资料名称、提取日期、样本范围与校验方式。</span></p><a href="#top">返回报告顶部 ↑</a></footer>
+</main>
+</body>
+</html>

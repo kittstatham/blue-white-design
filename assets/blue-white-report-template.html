@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--
+  深蓝白报告模板 v3.2 · 单文件、无外部依赖。
+  使用：保留 data-blue-white-style="deep"；按 data-slot="{{槽位名}}" 替换节点文本，
+  完成后可移除 data-slot 属性。当前为可直接观看的虚构示例，不能作为真实业务数据。
+  按报告内容删选统计、亮点、事项、人员、风险、节点与来源模块，不强制人员统计。
+  v3.1 玻璃层共 3 个模糊层：跨首屏浮动导航条、首屏短口径条、收尾节点容器；
+  收尾三张节点卡为不透明内卡。结论主块、白底正文、表格、按钮六态保持不透明。
+  按钮仅展示六种视觉状态；真实交互只有页内导航、原生 details 与返回顶部。
+-->
+<html lang="zh-CN" data-blue-white-style="deep">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title data-slot="{{报告标题}}">产品体验专项 · 阶段复盘</title>
+<style>
+:root{
+  --ink:#0f2a52;--muted:#3b5b8f;--primary:#1d6ef5;--link:#1554b0;--ink-pressed:#082247;--tint-pressed:#c6dcfa;
+  --line:#dbe7f7;--surface:#ffffff;--tint:#e8f1ff;
+  --success:#146a45;--success-bg:#e6f7ee;--warning:#895b11;--warning-bg:#fff3e0;--danger:#b42335;--danger-bg:#ffecec;
+  --finance-red:#e64545;--finance-green:#1fa663;
+  --page:linear-gradient(180deg,#eef4fd,#f7fafd 40%,#eef4fd);
+  --hero:linear-gradient(120deg,#0b3ea8 0%,#1d6ef5 55%,#4f9cff 100%);
+  --closing:linear-gradient(135deg,#0b3ea8,#1d6ef5 60%,#3f8dfd);
+  --halo:radial-gradient(circle 180px at 90% 10%,var(--on-dark-tint) 99%,transparent 100%),radial-gradient(circle 120px at 5% 100%,var(--on-dark-tint) 99%,transparent 100%);
+  --protection:rgba(15,42,82,.50);--conclusion:rgba(15,42,82,.32);
+  --on-dark-line:rgba(255,255,255,.32);--on-dark-tint:rgba(255,255,255,.10);
+  --card:linear-gradient(160deg,#ffffff,#f2f7ff);--table-head:linear-gradient(135deg,#eaf2ff,#f5f9ff);
+  --glass-fill-strong:rgb(255 255 255 / .72);--glass-blur:16px;--glass-stroke:rgb(255 255 255 / .70);
+  --glass-fallback:rgb(255 255 255 / .88);--glass-print:#ffffff;
+  --shadow-s:0 10px 30px rgba(29,110,245,.07);--shadow-m:0 16px 44px rgba(15,42,82,.16);--shadow-l:0 24px 60px rgba(29,110,245,.28);
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-10:40px;--space-14:56px;--space-16:64px;
+  --radius-s:12px;--radius-m:24px;--radius-l:32px;--pill:999px;
+  --font:system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --type-hero:800 clamp(26px,3.15vw,34px)/1.29 var(--font);
+  --type-h2:800 24px/36px var(--font);--type-h3:700 18px/28px var(--font);--type-lead:700 20px/32px var(--font);
+  --type-body:400 14px/24px var(--font);--type-table:400 14px/24px var(--font);--type-button:600 14px/24px var(--font);
+  --type-section-no:800 14px/24px var(--font);--type-caption:400 13px/24px var(--font);--type-tag:600 12px/20px var(--font);--type-stat:800 40px/48px var(--font);
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:var(--space-6)}
+.glass{position:relative;background:var(--glass-fill-strong);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border:1px solid var(--glass-stroke);border-radius:var(--radius-m);color:var(--ink);box-shadow:var(--shadow-s)}
+.glass p,.glass h3,.glass .kicker,.glass .caption,.glass strong{color:var(--ink)}
+.flow.glass p,.flow.glass h3,.flow.glass .kicker,.flow.glass .caption{color:var(--ink)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass-fallback)}}
+body{margin:0;background:var(--page);color:var(--ink);font:var(--type-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,ul,ol{margin:0}h1{font:var(--type-hero);letter-spacing:1px}h2{font:var(--type-h2)}h3{font:var(--type-h3)}
+a{color:var(--link);text-underline-offset:var(--space-1)}strong{font-weight:700}button{font:inherit}
+:focus-visible{outline:3px solid var(--link);outline-offset:3px}.hero :focus-visible,.advice :focus-visible{outline-color:var(--surface)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.container{max-width:1080px;margin:auto;padding:var(--space-8) var(--space-6) var(--space-16)}
+.skip-link{position:absolute;inset-inline-start:var(--space-4);top:var(--space-4);z-index:3;transform:translateY(-200%);padding:var(--space-3) var(--space-4);background:var(--surface);border-radius:var(--radius-s)}.skip-link:focus{transform:none}
+.hero,.advice{position:relative;isolation:isolate;overflow:hidden;background:var(--hero);color:var(--surface);border-radius:var(--radius-l)}
+.hero::after,.advice::after{content:"";position:absolute;inset:0;z-index:-2;background:var(--halo);pointer-events:none}
+.hero::before,.advice::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--protection);pointer-events:none}
+.hero{padding:var(--space-10);box-shadow:var(--shadow-l)}
+.hero .tag{color:var(--surface);background:var(--on-dark-tint);border-color:var(--on-dark-line)}
+.hero h1{margin-top:var(--space-4);max-width:800px}.hero .sub{margin-top:var(--space-3);color:var(--surface)}
+.conclusion{margin-top:var(--space-6);padding:var(--space-6);border:1px solid var(--on-dark-line);border-radius:var(--radius-m);background:var(--conclusion)}
+.hero-meta{margin-top:var(--space-4);padding:var(--space-3) var(--space-4);border-radius:var(--radius-s);font:var(--type-caption)}
+.kicker{font:var(--type-tag)}.lead{font:var(--type-lead)}.conclusion .lead{margin-top:var(--space-2)}
+.nav{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.nav.glass{z-index:2;margin:-24px var(--space-4) 0;padding:var(--space-3)}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:var(--space-2) var(--space-4);border:1px solid var(--line);border-radius:var(--pill);background:var(--surface);font:var(--type-button);text-decoration:none}.nav a:hover{background:var(--tint)}.nav a:active{background:var(--tint-pressed);border-color:var(--link);box-shadow:none}
+.section{margin-top:var(--space-14);scroll-margin-top:var(--space-6)}.sec-head{display:flex;align-items:center;gap:var(--space-3)}
+.sec-no,.avatar{display:grid;place-items:center;flex-shrink:0;background:var(--link);color:var(--surface);border-radius:var(--radius-s)}.sec-no{width:40px;height:40px;font:var(--type-section-no)}.avatar{width:48px;height:48px;font:var(--type-h3);font-weight:800}
+.sec-desc,.caption{font:var(--type-caption);color:var(--muted)}.sec-desc{margin-top:var(--space-2)}
+.grid{display:grid;gap:var(--space-4);margin-top:var(--space-4)}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid>*{min-width:0}
+.card{padding:var(--space-6);border:1px solid var(--line);border-radius:var(--radius-m);background:var(--card);box-shadow:var(--shadow-s)}
+.stat .value{margin-top:var(--space-3);font:var(--type-stat);font-variant-numeric:tabular-nums}.stat .caption{margin-top:var(--space-2)}
+.text-success{color:var(--success)}.text-danger{color:var(--danger)}.text-warning{color:var(--warning)}.text-link{color:var(--link)}
+.tag{display:inline-flex;align-items:center;gap:var(--space-1);max-width:100%;padding:var(--space-1) var(--space-3);border:1px solid var(--line);border-radius:var(--pill);background:var(--tint);color:var(--link);font:var(--type-tag)}
+.tag.success{background:var(--success-bg);color:var(--success);border-color:var(--success-bg)}.tag.warning{background:var(--warning-bg);color:var(--warning);border-color:var(--warning-bg)}.tag.danger{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-bg)}
+.card h3+.caption{margin-top:var(--space-2)}.list{padding-inline-start:var(--space-6);margin-top:var(--space-4)}.list li+li{margin-top:var(--space-2)}.list li::marker{color:var(--primary)}
+.callout{padding:var(--space-4);margin-top:var(--space-4);background:var(--tint);border-inline-start:4px solid var(--primary);border-radius:var(--radius-s)}
+.finance{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);margin-top:var(--space-4);font-variant-numeric:tabular-nums}.finance .up{color:var(--finance-red);font-weight:700}.finance .down{color:var(--finance-green);font-weight:700}.finance .caption{flex-basis:100%}
+.empty{margin-top:var(--space-4);padding:var(--space-6);border:1px dashed var(--line);border-radius:var(--radius-m);background:var(--surface);text-align:start}.empty h3{font:var(--type-h3)}.empty p{margin-top:var(--space-2);color:var(--muted)}.empty .button{margin-top:var(--space-4)}
+.person-head{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-4)}.person-head>div{min-width:0}
+.task{padding:var(--space-3) 0;border-top:1px solid var(--line)}.task .caption{margin-top:var(--space-1)}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-s);margin-top:var(--space-4);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;text-align:start;font:var(--type-table)}caption{text-align:start;padding:var(--space-4);font:var(--type-caption);color:var(--muted)}th,td{padding:var(--space-4);border-bottom:1px solid var(--line);vertical-align:top}thead{background:var(--table-head)}th{font-weight:700}tbody tr:last-child td{border-bottom:0}
+details{margin-top:var(--space-4);border:1px solid var(--line);border-radius:var(--radius-s);background:var(--surface)}summary{padding:var(--space-3) var(--space-4);min-height:44px;color:var(--link);font-weight:700;cursor:pointer}summary:hover{background:var(--tint)}summary:active{background:var(--tint-pressed)}details[open] summary{border-bottom:1px solid var(--line)}.details-body{padding:var(--space-4)}
+.risk{display:flex;align-items:flex-start;gap:var(--space-3);margin-top:var(--space-4)}.risk>div{min-width:0}.risk-mark{display:grid;place-items:center;width:32px;height:32px;flex-shrink:0;border-radius:var(--radius-s);background:var(--danger-bg);color:var(--danger);font-weight:800}.risk p{margin-top:var(--space-2)}
+.advice{padding:var(--space-10);margin-top:var(--space-4);background:var(--closing);box-shadow:var(--shadow-m)}.advice p{color:var(--surface)}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4);list-style:none;padding:var(--space-4);margin-top:var(--space-6)}.flow li{min-width:0;padding:var(--space-4);border:1px solid var(--line);border-radius:var(--radius-m);background:var(--surface);box-shadow:var(--shadow-s)}.flow h3{margin:var(--space-2) 0}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin-top:var(--space-4)}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:44px;padding:var(--space-2) var(--space-4);border:1px solid var(--link);border-radius:var(--radius-s);background:var(--link);color:var(--surface);font:var(--type-button);text-decoration:none;cursor:pointer;transition:background .15s,box-shadow .15s}
+.button:hover,.button.is-hover{background:var(--ink);border-color:var(--ink);box-shadow:var(--shadow-s)}
+.button:active,.button.is-active{background:var(--ink-pressed);border-color:var(--ink-pressed);color:var(--surface);box-shadow:none}
+.button:disabled,.button[aria-disabled="true"]{background:var(--tint);border-color:var(--line);color:var(--muted);cursor:not-allowed;box-shadow:none;transform:none}
+.button[aria-busy="true"]{background:var(--tint);border-color:var(--link);color:var(--link);cursor:progress}.button[aria-busy="true"]::before{content:"";width:16px;height:16px;border:1px solid var(--link);border-right-color:var(--tint);border-radius:50%;animation:spin 1s linear infinite}
+.button.is-error{background:var(--danger-bg);border-color:var(--danger);color:var(--danger);box-shadow:none}.button.is-error:hover{background:var(--danger-bg);border-color:var(--danger);color:var(--danger)}.error-note{margin-top:var(--space-3);color:var(--danger);font:var(--type-caption)}
+.foot{margin-top:var(--space-14);padding:var(--space-6);border:1px solid var(--line);border-radius:var(--radius-m);background:var(--surface);font:var(--type-caption);color:var(--muted)}.foot p+p{margin-top:var(--space-2)}.foot strong{color:var(--ink)}.foot a{display:inline-flex;align-items:center;min-height:44px;margin-top:var(--space-2)}
+h1,h2,h3,p,a,li,td,th{overflow-wrap:anywhere}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(min-width:761px) and (max-width:1024px){.container{padding:var(--space-6) var(--space-4) var(--space-10)}.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.container{padding:var(--space-4) var(--space-4) var(--space-10)}.hero,.advice{padding:var(--space-6)}.grid-4,.grid-2{grid-template-columns:minmax(0,1fr)}.card,.conclusion{padding:var(--space-4)}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.sec-head{align-items:flex-start}.nav.glass{margin:-16px 0 0;padding:var(--space-2)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.button[aria-busy="true"]::before{display:none}}
+@media(forced-colors:active){.glass{backdrop-filter:none;-webkit-backdrop-filter:none;border-color:CanvasText;box-shadow:none}}
+@media print{body{background:var(--surface)}.container{max-width:none;padding:0}.hero,.advice,.card,.foot,.button{box-shadow:none!important}.hero,.advice{background:var(--surface);color:var(--ink);border:1px solid var(--line)}.hero::before,.hero::after,.advice::before,.advice::after{display:none}.hero .sub,.hero .tag,.advice p,.flow .caption{color:var(--ink)}.conclusion,.flow li,.hero .tag{background:var(--tint);border-color:var(--line)}.nav,.skip-link,.state-demo,.foot a{display:none}.section,.foot{margin-top:var(--space-6)}.card,.flow li{break-inside:avoid}.table-wrap{overflow:visible}table{min-width:0}.hero,.advice{padding:var(--space-6)}.glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--glass-print)!important;border-color:var(--line)!important;box-shadow:none!important;color:var(--ink)!important}.glass p,.glass h3,.glass .kicker,.glass .caption{color:var(--ink)!important}}
+</style>
+</head>
+<body id="top">
+<a class="skip-link" href="#overview">跳到报告正文</a>
+<main class="container">
+  <header class="hero" aria-labelledby="report-title">
+    <span class="tag" data-slot="{{组织/栏目标签}}">体验研究室 · 阶段观察 / DEEP 03</span>
+    <h1 id="report-title" data-slot="{{报告标题}}">产品体验专项<br>让每一次改进，都有清晰回声</h1>
+    <p class="sub" data-slot="{{报告副标题}}">示例周期：10.01—10.21 · 本页所有数字与事项均为虚构设计样例</p>
+    <div class="conclusion">
+      <p class="kicker">一句话结论 / THE TAKEAWAY</p>
+      <p class="lead" data-slot="{{核心结论}}">关键路径已完成验证，下一阶段从“完成交付”转向“持续改善”。</p>
+      <p class="sub" data-slot="{{结论补充}}">优先推进反馈闭环、内容一致性与可访问性复核；两项依赖仍需在下个节点前确认。</p>
+    </div>
+    <!-- v3.1 玻璃层 2：只放一句口径，不承载结论；文字为墨蓝，结论主块仍反白。 -->
+    <div class="hero-meta glass" data-slot="{{玻璃口径条}}"><strong>口径</strong> · 本页为虚构样例，数字与事项不用于真实评估。</div>
+  </header>
+  <!-- v3.1 玻璃层 1：跨首屏与正文交界。 -->
+  <nav class="nav glass" aria-label="报告章节导航"><a href="#overview">01 阶段总览</a><a href="#highlights">02 关键进展</a><a href="#detail">03 事项明细</a><a href="#risk">04 风险与应对</a><a href="#next">05 下一步</a></nav>
+
+  <!-- 可选统计模块；叙事型报告可直接删除。 -->
+  <section class="section" id="overview" aria-labelledby="overview-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">01</span><h2 id="overview-title" data-slot="{{总览标题}}">用四个信号，看清阶段位置</h2></div>
+    <p class="sec-desc" data-slot="{{统计口径}}">示例指标仅用于展示信息层级；数量、比例与状态各自标明口径。</p>
+    <div class="grid grid-4">
+      <article class="card stat"><span class="tag success">已完成</span><p class="value text-success" data-slot="{{完成数量}}">18</p><h3>闭环事项</h3><p class="caption">以验收通过为准，不含待确认项</p></article>
+      <article class="card stat"><span class="tag">验证中</span><p class="value" data-slot="{{验证数量}}">06</p><h3>重点场景</h3><p class="caption">覆盖发现、理解、行动三条路径</p></article>
+      <article class="card stat"><span class="tag">阶段进度</span><p class="value text-link" data-slot="{{完成比例}}">90%</p><h3>目标达成率</h3><p class="caption">18 / 20 个计划验收事项</p></article>
+      <article class="card stat"><span class="tag danger">待解决</span><p class="value text-danger" data-slot="{{风险数量}}">02</p><h3>外部依赖</h3><p class="caption">已明确责任方向与下一检查点</p></article>
+    </div>
+    <div class="finance" aria-label="金融数值组件示意"><span class="tag">金融数值组件 · 虚构</span><span class="up">▲ +2.35% 涨</span><span class="down">▼ −1.08% 跌</span><p class="caption">红涨绿跌只用于金融数值，并带正负号或箭头；不用于表达任务完成与否。</p></div>
+  </section>
+
+  <section class="section" id="highlights" aria-labelledby="highlights-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">02</span><h2 id="highlights-title" data-slot="{{亮点标题}}">进展不只是一组数字</h2></div>
+    <p class="sec-desc">围绕可感知的体验变化，说明做了什么、为什么重要。</p>
+    <div class="grid grid-2">
+      <article class="card"><span class="tag">主线 A · 路径清晰</span><h3 data-slot="{{亮点一标题}}">减少理解成本，保留行动线索</h3><p class="caption">从信息堆叠转向结论优先。</p><ul class="list"><li>在首屏呈现核心判断与适用边界。</li><li>将复杂任务拆解为可追踪的阶段节点。</li><li>关键动作使用清晰文本，而不是仅依赖颜色。</li></ul><div class="callout"><strong>设计观察</strong><p data-slot="{{亮点一证据}}">先回答“这与我有什么关系”，再展开支撑细节。</p></div></article>
+      <article class="card"><span class="tag">主线 B · 交付一致</span><h3 data-slot="{{亮点二标题}}">用统一规则，缩小协作偏差</h3><p class="caption">让结构、状态与来源都有明确位置。</p><ul class="list"><li>状态文字同时说明进展，不让红绿承担全部含义。</li><li>每项待办都关联下一动作与检查节点。</li><li>来源与口径独立呈现，避免混用统计范围。</li></ul><div class="callout"><strong>交付原则</strong><p data-slot="{{亮点二证据}}">同一事实只保留一个可信口径，重要差异写明原因。</p></div></article>
+    </div>
+  </section>
+
+  <section class="section" id="detail" aria-labelledby="detail-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">03</span><h2 id="detail-title" data-slot="{{明细标题}}">从摘要走向可执行事项</h2></div>
+    <p class="sec-desc">事项表为默认明细；人员卡仅在报告确需按角色呈现时使用。</p>
+    <div class="table-wrap" role="region" aria-label="阶段事项明细，可使用方向键横向滚动" tabindex="0">
+      <table><caption data-slot="{{明细表口径}}">示例明细 · 表格在小屏可单独横向滚动</caption><thead><tr><th scope="col">事项</th><th scope="col">状态</th><th scope="col">下一动作</th><th scope="col">检查节点</th></tr></thead><tbody>
+        <tr><td data-slot="{{事项一}}"><strong>关键路径复核</strong><br>发现 → 理解 → 行动</td><td><span class="tag success">已验收</span></td><td>补充复用说明</td><td>10.24</td></tr>
+        <tr><td><strong>异常状态说明</strong><br>空态、错误与加载</td><td><span class="tag warning">待确认</span></td><td>确认错误文案边界</td><td>10.26</td></tr>
+        <tr><td><strong>小屏阅读体验</strong><br>360px 内容适配</td><td><span class="tag">复核中</span></td><td>检查表格与长标题</td><td>10.28</td></tr>
+      </tbody></table>
+    </div>
+    <details><summary>可选补充 · 按协作角色查看</summary><div class="details-body"><div class="person-head"><span class="avatar" aria-hidden="true">研</span><div><h3 data-slot="{{人员/角色名称}}">体验研究角色（示例）</h3><p class="caption" data-slot="{{角色说明}}">仅展示协作责任，不进行个人表现排名</p></div></div><div class="task"><strong data-slot="{{角色事项}}">反馈归类与证据补齐</strong><p class="caption">下一检查点 10.24 · 输出可复核的问题清单</p></div><div class="task"><strong>无记录时说明统计边界</strong><p class="caption">当前样例不覆盖其他角色的投入，不据此推断其工作量。</p></div></div></details>
+  </section>
+
+  <section class="section" id="risk" aria-labelledby="risk-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">04</span><h2 id="risk-title" data-slot="{{风险标题}}">让风险有边界，让应对有动作</h2></div>
+    <p class="sec-desc">风险以事项为对象，描述影响与下一动作，不将问题归因于个人。</p>
+    <div class="grid grid-2">
+      <article class="card"><h3>需要关注的依赖</h3><div class="risk"><span class="risk-mark" aria-hidden="true">!</span><div><span class="tag danger">需跟进</span><p data-slot="{{风险事项}}"><strong>跨模块文案尚未统一</strong></p><p>可能造成同一状态出现不同解释，影响用户判断。</p><p class="caption">下一动作：在 10.26 前确认统一术语表。</p></div></div></article>
+      <article class="card"><span class="tag warning">应对建议</span><h3 data-slot="{{应对标题}}">先明确验收，再推进扩展</h3><ul class="list"><li>优先解决关键路径中的阻断项。</li><li>将依赖项单独列出，不混入完成数。</li><li>阶段结论同步注明不适用范围。</li></ul></article>
+    </div>
+  </section>
+
+  <section class="section" id="next" aria-labelledby="next-title">
+    <div class="sec-head"><span class="sec-no" aria-hidden="true">05</span><h2 id="next-title" data-slot="{{展望标题}}">把下一步，放进明确节点</h2></div>
+    <p class="sec-desc">以下为示例安排，不代表真实项目承诺。</p>
+    <div class="advice"><p class="kicker">NEXT / 三个检查点</p><p class="lead" data-slot="{{行动总标题}}">先收敛，再验证，最后沉淀复用。</p>
+    <!-- v3.1 玻璃层 3：容器一层玻璃，三张节点卡不透明，减少背后模糊重绘。 -->
+    <ol class="flow glass"><li><p class="kicker">01 · 10.24</p><h3>收敛问题</h3><p>统一问题清单与验收口径。</p><p class="caption">输出：确认版事项列表</p></li><li><p class="kicker">02 · 10.26</p><h3>验证改进</h3><p>复核关键路径与异常状态。</p><p class="caption">输出：验证记录与修订项</p></li><li><p class="kicker">03 · 10.28</p><h3>沉淀规则</h3><p>归档可复用结构与边界说明。</p><p class="caption">输出：下一轮输入材料</p></li></ol></div>
+  </section>
+
+  <section class="section state-demo" aria-labelledby="states-title"><div class="sec-head"><span class="sec-no" aria-hidden="true">UI</span><h2 id="states-title">交互状态参考</h2></div><p class="sec-desc">组件样例，不连接后端。前往口径为真实页内导航；其余按钮只陈列状态。</p><div class="card grid"><div class="actions"><a class="button" href="#sources">默认 · 前往口径</a><button class="button is-hover" type="button">悬停态样例</button><button class="button is-active" type="button">按下态样例</button><button class="button" type="button" disabled>禁用态 · 暂不可用</button><button class="button" type="button" aria-disabled="true" aria-busy="true">处理中…</button><button class="button is-error" type="button" aria-describedby="error-note">错误态样例</button></div><p class="sr-only" role="status" aria-live="polite">示例页面无后台请求；加载状态仅作展示，减少动效时保留“处理中…”文字。</p><p class="error-note" id="error-note">错误态展示：此页未连接任何服务，不表示已执行真实请求。</p>
+    <div class="empty"><h3>暂无记录</h3><p>本周期尚未登记事项；无登记不等于无产出。未知与 0 分开表达。</p><a class="button" href="#sources">查看口径说明</a></div>
+  </div></section>
+
+  <footer class="foot" id="sources" aria-label="来源与口径"><p><strong>统计口径</strong> <span data-slot="{{口径定义}}">本页为虚构的产品体验复盘示例；18 / 20 表示样例验收事项。</span></p><p><strong>口径边界</strong> <span data-slot="{{口径边界}}">未覆盖全部角色投入；待确认事项不计入完成数，数字不可用于真实评估。</span></p><p><strong>数据来源</strong> <span data-slot="{{数据来源}}">无外部数据源；正式使用时替换为来源名称、提取日期与校验方式。</span></p><a href="#top">返回报告顶部 ↑</a></footer>
+</main>
+</body>
+</html>
