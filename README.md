@@ -1,15 +1,13 @@
-# blue-white-design · 蓝白报告设计 Skill
+# blue-white-design · 蓝白双风格报告设计
 
-面向报告类交付的蓝白设计规范与单文件 HTML 模板。**同一套技能内提供两种独立风格**，不混搭、不互相覆盖。
+面向报告、周报、竞品分析、方案、待办清单和数据看板的设计 Skill。同一套技能内提供 `deep` 与 `light` 两套独立规范，以及零外部依赖、可离线打开的单文件 HTML 模板。
 
 | 项 | 值 |
 |---|---|
 | 当前版本 | v3.2 |
-| 形态 | 技能文档 + 可离线打开的单文件 HTML 模板，零外部依赖 |
+| 形态 | 技能文档 + 可离线打开的单文件 HTML 模板 |
 | 适用 | 周报、阶段复盘、竞品分析、方案说明、待办清单、Dashboard |
 | 不适用 | 整页深色主题、营销落地页、依赖后端交互的应用界面 |
-
----
 
 ## 这是什么
 
@@ -22,34 +20,46 @@
 
 规范之外给两套模板，复制即可用，改内容不碰样式。
 
-## 为什么是两套
+## 选择风格
 
-两套不是主题切换，是两种阅读契约：一套要求「先看到结论」，一套要求「能读下去」。
+| 风格 | 适用内容 | 规范 | 模板 |
+|---|---|---|---|
+| **Deep 深蓝白** | 重点汇报、成果展示、竞品结论、需要更强视觉层级的短报告 | [深蓝白规范](references/deep-blue-white.md) | [HTML 模板](assets/blue-white-report-template.html) |
+| **Light 浅蓝白** | 长文方案、知识阅读、流程和待办说明 | [浅蓝白规范](references/light-blue-white.md) | [HTML 模板](assets/blue-white-light-report-template.html) |
+
+只说「蓝白」且无其他线索时默认选择 Deep，并在开头说明选型；明确要求长文阅读时选择 Light。两套规范各自定义首屏、文字、收尾和玻璃效果，**禁止混搭**。
 
 | 维度 | 深蓝白 `deep` | 浅蓝白 `light` |
 |---|---|---|
-| 适用 | 重点汇报、成果总览、竞品结论 | 长文方案、知识阅读、行动清单 |
 | 首屏 | 深蓝渐变 + 反白文字 + 受保护结论卡 | 浅蓝渐变 + 墨蓝文字 + 直接排版 |
 | 正文 | 白至浅蓝卡片，紧凑（14/24） | 白至浅蓝卡片，舒展（15/28） |
 | 收尾 | 深蓝渐变 + 反白节点卡 | 浅蓝至白渐变 + 墨蓝总结 |
 | 玻璃层 | 最多 3 个模糊层 | 仅 1 条跨首屏导航 |
-| 模板 | `assets/blue-white-report-template.html` | `assets/blue-white-light-report-template.html` |
 | 页面标记 | `data-blue-white-style="deep"` | `data-blue-white-style="light"` |
 
-**禁止混搭**：浅蓝首屏配白字、浅色报告夹深蓝收尾、把 deep 的深底玻璃卡搬到 light，都会破坏两套各自的辨识度。
+浅蓝首屏配白字、浅色报告夹深蓝收尾、把 deep 的深底玻璃卡搬到 light，都会破坏两套各自的辨识度。
 
 ## 快速开始
 
-1. **选套装**：要强调结论选 `deep`；要长文阅读选 `light`。只说「蓝白」且无其他线索时默认 `deep`，并在开头说明选型。
-2. **复制模板**：把对应模板另存为交付文件，保留 `data-blue-white-style` 标记，按 `data-slot` 替换内容，完成后可移除 `data-slot`。
-3. **本地预览**：克隆后直接双击模板文件即可打开，无需服务器、无需联网。
+1. **选套装**：要强调结论选 `deep`；要长文阅读选 `light`。
+2. **安装到技能目录**：把仓库放进所用客户端的技能目录，目录名保持 `blue-white-design`，让工具读取 `SKILL.md`。例如：
 
-```bash
-git clone https://github.com/kittstatham/blue-white-design.git
-open blue-white-design/assets/blue-white-report-template.html
-```
+   ```bash
+   # Codex
+   git clone https://github.com/kittstatham/blue-white-design.git ~/.codex/skills/blue-white-design
 
-作为技能使用时，把仓库放进所用客户端的技能目录，目录名保持 `blue-white-design`。不同客户端的技能目录位置不同，以其自身说明为准。
+   # Claude Code
+   git clone https://github.com/kittstatham/blue-white-design.git ~/.claude/skills/blue-white-design
+
+   # WorkBuddy
+   git clone https://github.com/kittstatham/blue-white-design.git ~/.workbuddy/skills/blue-white-design
+   ```
+
+   已有安装目录时，在仓库目录运行 `git pull` 获取更新。
+3. **复制模板**：把对应模板另存为交付文件，保留 `data-blue-white-style` 标记，按 `data-slot` 替换内容，完成后可移除 `data-slot`。
+4. **本地预览**：直接双击模板文件即可打开，无需服务器、无需联网。
+
+安装后可直接提出「按深蓝白规范生成汇报 HTML」或「按浅蓝白模板制作长文方案」等需求。Agent 会读取对应规范、复制对应模板，并将内容写入一份独立 HTML。生成时应按实际内容选择章节，不补造数据或任务。
 
 ## 调用句
 
@@ -66,6 +76,8 @@ blue-white-design/
 ├── SKILL.md                                  # 技能入口：选型、工作流、硬规则、自检
 ├── README.md
 ├── CHANGELOG.md                              # 版本记录
+├── LICENSE                                   # MIT 许可
+├── .gitignore
 ├── references/
 │   ├── design-spec.md                        # 完整规范（唯一内容源）
 │   ├── deep-blue-white.md                    # 深蓝白轻量执行规范
@@ -75,7 +87,7 @@ blue-white-design/
     └── blue-white-light-report-template.html # light 模板（含虚构示例内容）
 ```
 
-维护顺序固定：**先改 `references/design-spec.md`，再同步两份执行页与两份模板**，避免规范与模板漂移。
+维护顺序固定：**先改 `references/design-spec.md`，再同步两份执行页与两份模板**，确保 SKILL、规范、执行页与模板共 6 项资料保持一致，避免规范与模板漂移。
 
 ## 设计基线
 
@@ -134,6 +146,7 @@ blue-white-design/
 
 ## 交付前自检
 
+- 生成时按实际内容选择章节，不补造数据或任务；完成情况以实际渲染和交互检查为准
 - 选型标记与首屏、字色、结论、收尾是否属于同一套
 - 字阶是否成组引用；间距、圆角、阴影是否在梯度内；有没有未使用的 token
 - 浅底标签、深底最亮区、玻璃合成底的实际对比度是否达标（按合成色测，不测原色）
