@@ -7,6 +7,7 @@
 ## 未发布
 
 - 采用 MIT 许可，新增 `LICENSE`，README 补充授权说明。
+- 新增 `assets/preview-deep.png` 与 `assets/preview-light.png`，README 增加「效果预览」章节，用真实模板渲染图说明两套风格的适用边界。
 
 ## v3.2 — 2026-11-19
 

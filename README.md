@@ -9,6 +9,22 @@
 | 适用 | 周报、阶段复盘、竞品分析、方案说明、待办清单、Dashboard |
 | 不适用 | 整页深色主题、营销落地页、依赖后端交互的应用界面 |
 
+## 效果预览
+
+### Deep 深蓝白 · 先看到结论
+
+![深蓝白模板预览：深蓝渐变首屏、反白结论卡、玻璃导航条与白浮卡片](assets/preview-deep.png)
+
+深蓝首屏负责定调和结论，正文回到白至浅蓝卡片。适合重点汇报、成果总览、竞品结论。
+
+### Light 浅蓝白 · 能读下去
+
+![浅蓝白模板预览：浅蓝首屏、墨蓝正文、玻璃导航条与舒展卡片](assets/preview-light.png)
+
+浅蓝首屏不抢阅读，正文用墨蓝和更舒展的行高。适合长文方案、知识阅读、行动清单。
+
+> 两张图均为模板内**虚构示例**的渲染截图，仅展示版式与层级；生成报告时请按实际内容替换槽位，不要照搬示例数据。
+
 ## 这是什么
 
 一份既可以直接交给 AI 执行、也可以人工照做的排版规范。它解决的不是「蓝色好不好看」，而是：
@@ -84,7 +100,9 @@ blue-white-design/
 │   └── light-blue-white.md                   # 浅蓝白轻量执行规范
 └── assets/
     ├── blue-white-report-template.html       # deep 模板（含虚构示例内容）
-    └── blue-white-light-report-template.html # light 模板（含虚构示例内容）
+    ├── blue-white-light-report-template.html # light 模板（含虚构示例内容）
+    ├── preview-deep.png                      # deep 渲染预览
+    └── preview-light.png                     # light 渲染预览
 ```
 
 维护顺序固定：**先改 `references/design-spec.md`，再同步两份执行页与两份模板**，确保 SKILL、规范、执行页与模板共 6 项资料保持一致，避免规范与模板漂移。
